@@ -28,7 +28,6 @@ export const AuthProvider = ({ children }) => {
     const login = (loginName, password) => {
         console.log(`${API_URL}/signin`)
         return axios.post(`${API_URL}/signin`, { loginName, password }).then(result => {
-            console.log(result.data)
             const token = result.data.authorization
             tokenCookie.setToken(token);
             setUser(getUser(token))
@@ -37,7 +36,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     const isAuthenticated = () => {
-        console.log(tokenCookie.isToken())
         return tokenCookie.isToken();
     }
 

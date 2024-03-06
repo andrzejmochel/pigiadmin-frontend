@@ -32,3 +32,21 @@
 .price-list-btn:hover {
     background-color: #0056b3;
 }
+
+/* PriceListForm.css */
+.small-input {
+    width: 40px; /* Adjust the width as needed */
+}
+
+.dragging {
+    background-color: #b7e1cd;; /* Change background color when dragging */
+}
+
+.drop-target {
+    background-color: #f8d7da; /* Red background color for drop target */
+}
+
+.drag-handle {
+    cursor: grab;
+    padding: 5px;
+}
