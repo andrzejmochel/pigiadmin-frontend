@@ -1,31 +1,25 @@
 // PriceListForm.js
 import React, {useEffect, useState} from 'react';
 import './PriceListForm.css';
-import priceListsApiService from "../../../../api/pricelist/pricelists.api.service";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGripVertical} from "@fortawesome/free-solid-svg-icons";
+import {faGripVertical, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 
-const PriceListForm = ({onSubmitPriceList, priceListId}) => {
+const PriceListForm = ({onSubmitPriceList, priceList}) => {
     const [name, setName] = useState('');
     const [products, setProducts] = useState([]);
     const [draggingIndex, setDraggingIndex] = useState(null);
     const [dropIndex, setDropIndex] = useState(null);
+    const id = priceList.id;
+    const creatorId = priceList.creatorId;
 
-    const fetchPriceList = async (id) => {
-        try {
-            const response = await priceListsApiService.getPriceList(id);
-
-            setName(response.name);
-            setProducts(response.products)
-        } catch (error) {
-            console.error('Error fetching price lists:', error);
-        }
+    const fetchPriceList = (priceList) => {
+        setName(priceList.name)
+        setProducts(priceList.products)
     };
 
     useEffect(() => {
-        console.log(priceListId)
-        fetchPriceList(priceListId);
-    }, [priceListId]);
+        fetchPriceList(priceList);
+    }, [priceList]);
 
 
     const handleSubmit = (e) => {
@@ -36,8 +30,9 @@ const PriceListForm = ({onSubmitPriceList, priceListId}) => {
             return;
         }
         // Call onAdd function to add or update price list
-        onSubmitPriceList({name, products});
-        // Reset form fields
+        const reorderedProducts = [...products];
+        reorderedProducts.forEach((product, index) => product.order = index + 1);
+        onSubmitPriceList({name, products, id, creatorId});
         setName('');
         setProducts([]);
     }
@@ -74,10 +69,21 @@ const PriceListForm = ({onSubmitPriceList, priceListId}) => {
             const updatedProducts = [...products];
             const movedProduct = updatedProducts.splice(sourceIndex, 1)[0];
             updatedProducts.splice(targetIndex, 0, movedProduct);
+            updatedProducts.forEach((product, index) => product.order = index + 1);
             setProducts(updatedProducts);
         }
         setDraggingIndex(null);
         setDropIndex(null);
+    };
+    const handleAddProduct = () => {
+        setProducts([...products, { name: '', code: '', price: '0.00', unit: 'KG', order: products.length + 1 }]);
+    };
+
+    const handleDeleteProduct = (index) => {
+        const updatedProducts = [...products];
+        updatedProducts.splice(index, 1);
+        updatedProducts.forEach((product, index) => product.order = index + 1)
+        setProducts(updatedProducts);
     };
 
     return (
@@ -96,6 +102,7 @@ const PriceListForm = ({onSubmitPriceList, priceListId}) => {
                         <th>Code</th>
                         <th>Price</th>
                         <th>Unit</th>
+                        <th></th> {/* Add an extra column for delete buttons */}
                     </tr>
                     </thead>
                     <tbody>
@@ -125,11 +132,16 @@ const PriceListForm = ({onSubmitPriceList, priceListId}) => {
                                     <option value="PCS">PCS</option>
                                 </select>
                             </td>
+                            <td>
+                                <button type="button" onClick={() => handleDeleteProduct(index)}>
+                                    <FontAwesomeIcon icon={faTrashAlt}/>
+                                </button>
+                            </td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
-                {/*<button type="button" onClick={handleAddProduct}>Add Product</button>*/}
+                <button type="button" onClick={handleAddProduct}>Add Product</button>
             </div>
             <button type="submit" className="btn">Save</button>
         </form>

@@ -13,6 +13,10 @@ class PriceListsApiService {
     getPriceList(id) {
         return api.httpGET(`${API_URL}/pricelists/${id}`);
     }
+
+    savePriceList(priceList) {
+        return api.httpPOST(`${API_URL}/pricelists`, priceList);
+    }
 }
 
 const priceListsApiService = new PriceListsApiService();

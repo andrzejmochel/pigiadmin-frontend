@@ -1,19 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import Modal from '../../Modal/Modal';
-import PriceListForm from './form/PriceListForm'; // Renamed from AddPriceListForm
+import PriceListForm from './form/PriceListForm';
 import './PriceLists.css';
-import priceListsApiService from "../../../api/pricelist/pricelists.api.service"; // Import the CSS file for styling
+import priceListsApiService from "../../../api/pricelist/pricelists.api.service";
+import { v4 as uuidv4 } from 'uuid';
 
 const PriceLists = () => {
     // Dummy data for price lists (replace with your actual data)
     const [priceLists, setPriceLists] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedPriceListId, setSelectedPriceListId] = useState(null);
+    const [selectedPriceList, setSelectedPriceList] = useState(null);
 
     const fetchPriceLists = async () => {
         try {
             const response = await priceListsApiService.getPriceLists();
-
             setPriceLists(response); // Update the price lists state with the fetched data
         } catch (error) {
             console.error('Error fetching price lists:', error);
@@ -26,14 +26,30 @@ const PriceLists = () => {
     }, []); // Empty dependency array ensures the effect runs only once
 
 
-    const handleAddPriceList = (newPriceList) => {
-        setPriceLists([...priceLists, newPriceList]);
-        setIsModalOpen(false);
+    const onPriceListEdit = async (newPriceList) => {
+        try {
+            await priceListsApiService.savePriceList(newPriceList)
+            setSelectedPriceList(null);
+            setIsModalOpen(false);
+            await fetchPriceLists();
+        } catch(e) {
+            console.log('saving failed')
+        }
     };
 
-    const handleEditPriceList = (id) => {
-        setSelectedPriceListId(id);
+    const handleEditPriceList = async (id) => {
+        const response =  await priceListsApiService.getPriceList(id);
+        setSelectedPriceList(response)
         setIsModalOpen(true);
+
+    };
+
+    const handleCopyPriceList = async (id) => {
+        const response =  await priceListsApiService.getPriceList(id);
+        const copiedList = { ...response, id : uuidv4(), name : '' }
+        setSelectedPriceList(copiedList)
+        setIsModalOpen(true);
+
     };
 
     const handleDeletePriceList = async (id) => {
@@ -58,13 +74,14 @@ const PriceLists = () => {
                         <td>
                             <button onClick={() => handleEditPriceList(priceList.id)}>Edit</button>
                             <button onClick={() => handleDeletePriceList(priceList.id)}>Delete</button>
+                            <button onClick={() => handleCopyPriceList(priceList.id)}>Copy</button>
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <PriceListForm onSubmit={handleAddPriceList} priceListId={selectedPriceListId}/>
+                <PriceListForm onSubmitPriceList={onPriceListEdit} priceList={selectedPriceList}/>
             </Modal>
         </div>
     );
