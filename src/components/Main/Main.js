@@ -4,9 +4,9 @@ import {Route, Routes, Link} from 'react-router-dom';
 // import Users from './Users';
 // import Administration from './Administration';
 import PriceLists from '../tabs/pricelists/PriceLists';
-// import Orders from './Orders';
 import './Main.css';
 import ProtectedRoute from "../../ProtectedRoute";
+import Orders from "../tabs/orders/Orders";
 
 const Main = () => {
     return (
@@ -25,6 +25,9 @@ const Main = () => {
                 {/*<Route path="/administration" component={Administration} />*/}
                 <Route path="/price-lists" element={
                     <ProtectedRoute element={<PriceLists />} />
+                }/>
+                <Route path="/orders" element={
+                    <ProtectedRoute element={<Orders />} />
                 }/>
                 {/*<Route path="/orders" component={Orders} />*/}
             </Routes>

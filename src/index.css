@@ -12,4 +12,107 @@ code {
     monospace;
 }
 
+.rc-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #749b75; /* Green color */
+  color: #fff; /* Text color */
+  border-radius: 4px;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+}
 
+.rc-notification-notice-content {
+  margin: 0;
+  margin-right: 10px;
+}
+
+.rc-notification-notice-close {
+  position: absolute;
+  top: 5px; /* Adjust top position */
+  right: 5px; /* Adjust right position */
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: #fff; /* Close button color */
+}
+
+button {
+  margin-right: 5px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.pigi-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  margin-top: 20px;
+}
+
+.pigi-table th, .pigi-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.pigi-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: left;
+}
+
+.pigi-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.pigi-table tr:hover {
+  background-color: #ddd;
+}
+
+.pigi-form label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.pigi-form input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.pigi-form .form-group {
+  margin-bottom: 20px;
+}
+
+.pigi-form .small-input{
+  width: 35px; /* Adjust the width as needed */
+}
+
+.pigi-form select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 8px;
+  background-color: #fff; /* Background color */
+  color: #333; /* Text color */
+  font-size: 14px; /* Font size */
+  appearance: none; /* Remove default appearance */
+}
+
+/* Style for when select is focused */
+.pigi-form select:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: #007bff; /* Change border color on focus */
+}

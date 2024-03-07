@@ -3,25 +3,34 @@ import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import './Login.css';
 import {useAuth} from '../../api/authentication/AuthContext'
+import {useNotification} from "rc-notification";
 
 const Login = ({onLoginSuccess}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     let navigate = useNavigate();
     const {login} = useAuth();
+    const [notification, notificationContext] = useNotification({})
 
     const handleSubmit = (e) => {
         e.preventDefault();
         login(username, password).then((success) => {
             navigate('/');
-        }).catch(e => setError("Login error"))
+        }).catch(e => {
+                notification.open({
+                    content: 'Login or password is incorrect',
+                    duration: -1,
+                    closable: true,
+                })
+            }
+        )
     }
 
     return (
         <div className="login-container">
             <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
+            {notificationContext}
+            <form className="pigi-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <input type="text" placeholder="Username" value={username}
                            onChange={(e) => setUsername(e.target.value)}/>
@@ -30,8 +39,7 @@ const Login = ({onLoginSuccess}) => {
                     <input type="password" placeholder="Password" value={password}
                            onChange={(e) => setPassword(e.target.value)}/>
                 </div>
-                <button type="submit" className="btn">Login</button>
-                {error && <p className="error-message">{error}</p>}
+                <button type="submit">Login</button>
             </form>
         </div>
     );

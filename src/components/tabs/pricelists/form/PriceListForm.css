@@ -4,39 +4,7 @@
     margin: 0 auto;
 }
 
-.price-list-form-group {
-    margin-bottom: 16px;
-}
-
-.price-list-label {
-    display: block;
-    margin-bottom: 8px;
-}
-
-.price-list-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.price-list-btn {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.price-list-btn:hover {
-    background-color: #0056b3;
-}
-
 /* PriceListForm.css */
-.small-input {
-    width: 35px; /* Adjust the width as needed */
-}
 
 .dragging {
     background-color: #b7e1cd;; /* Change background color when dragging */

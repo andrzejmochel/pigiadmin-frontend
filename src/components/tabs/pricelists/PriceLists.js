@@ -60,7 +60,7 @@ const PriceLists = () => {
     return (
         <div>
             <h2>Price Lists</h2>
-            <table className="price-lists-table">
+            <table className="pigi-table">
                 <thead>
                 <tr>
                     <th>Name</th>
