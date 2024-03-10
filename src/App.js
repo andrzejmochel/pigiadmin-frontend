@@ -1,27 +1,26 @@
 import './App.css';
 
 import React from 'react';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Main from './components/Main/Main';
 import {AuthProvider} from './api/authentication/AuthContext';
 import ProtectedRoute from './ProtectedRoute';
+import Router from "react-router-dom/es/Router";
+import history from "./api/history/history";
 
 function App() {
+
     return (
         <AuthProvider>
-            <BrowserRouter>
+            <Router history={history}>
                 <div className="App">
-                    <Routes>
-                        <Route path="/login" element={<Login/>}/>
-                        <Route path="*" element={
-                            <ProtectedRoute
-                                element={<Main />}
-                            />
-                        } />
-                    </Routes>
+                    <Switch>
+                        <Route path="/login" children={<Login/>}/>
+                        <ProtectedRoute path="/*" children={<Main />}/>
+                    </Switch>
                 </div>
-            </BrowserRouter>
+            </Router>
         </AuthProvider>
     );
 }

@@ -1,9 +1,9 @@
-import { createHashHistory } from 'history';
+import { createBrowserHistory, createHashHistory } from 'history';
 
-let history = createHashHistory();
+let history = createBrowserHistory();
 
 export const initHistory = () => {
-    history = createHashHistory();
+    history = createBrowserHistory();
     return history;
 }
 export default history;

@@ -36,6 +36,17 @@ export const httpGETFile = (url, headers = {}, params = {}) => (
         )
 );
 
+export const httpPOSTFormFile = (url, data = {}, headers = {}, params = {}) => (
+    axios.postForm(`${url}`, data, {
+        "headers": addSecurityHeaders(headers),
+        responseType: 'blob',
+        params
+    })
+        .then(mapResponseToFile)
+        .catch(error => handleError(error)
+        )
+);
+
 export const httpDelete = (url, headers = {}, params = {}) => {
    return  axios.delete(`${url}`, {
         "headers": addSecurityHeaders(headers),

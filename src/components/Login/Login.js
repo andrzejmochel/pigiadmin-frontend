@@ -1,21 +1,20 @@
 // components/Login.js
 import React, {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
 import './Login.css';
 import {useAuth} from '../../api/authentication/AuthContext'
 import {useNotification} from "rc-notification";
+import history from "../../api/history/history";
 
 const Login = ({onLoginSuccess}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    let navigate = useNavigate();
     const {login} = useAuth();
     const [notification, notificationContext] = useNotification({})
 
     const handleSubmit = (e) => {
         e.preventDefault();
         login(username, password).then((success) => {
-            navigate('/');
+            history.push("/");
         }).catch(e => {
                 notification.open({
                     content: 'Login or password is incorrect',

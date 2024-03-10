@@ -1,12 +1,13 @@
 // components/Main.js
 import React from 'react';
-import {Route, Routes, Link} from 'react-router-dom';
+import {Link, Switch} from 'react-router-dom';
 // import Users from './Users';
 // import Administration from './Administration';
 import PriceLists from '../tabs/pricelists/PriceLists';
 import './Main.css';
 import ProtectedRoute from "../../ProtectedRoute";
 import Orders from "../tabs/orders/Orders";
+import OrdersPaths from "../../paths/OrdersPaths";
 
 const Main = () => {
     return (
@@ -20,17 +21,14 @@ const Main = () => {
                     <li><Link to="/orders">Orders</Link></li>
                 </ul>
             </nav>
-            <Routes>
+            <Switch>
                 {/*<Route path="/users" component={Users} />*/}
                 {/*<Route path="/administration" component={Administration} />*/}
-                <Route path="/price-lists" element={
-                    <ProtectedRoute element={<PriceLists />} />
-                }/>
-                <Route path="/orders" element={
-                    <ProtectedRoute element={<Orders />} />
-                }/>
+                <ProtectedRoute path="/price-lists" children={<PriceLists/>}/>
+                <ProtectedRoute path="/orders" children={<OrdersPaths/>}/>
+
                 {/*<Route path="/orders" component={Orders} />*/}
-            </Routes>
+            </Switch>
         </div>
     );
 }
