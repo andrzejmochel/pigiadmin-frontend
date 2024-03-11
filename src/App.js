@@ -8,6 +8,7 @@ import {AuthProvider} from './api/authentication/AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 import Router from "react-router-dom/es/Router";
 import history from "./api/history/history";
+import ChangePasswordPaths from "./paths/ChangePasswordPaths";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
                 <div className="App">
                     <Switch>
                         <Route path="/login" children={<Login/>}/>
+                        <Route path="/changepassword" children={<ChangePasswordPaths />} />
                         <ProtectedRoute path="/*" children={<Main />}/>
                     </Switch>
                 </div>

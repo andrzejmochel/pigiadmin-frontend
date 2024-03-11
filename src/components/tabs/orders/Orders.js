@@ -6,10 +6,8 @@ import ordersApiService from "../../../api/orders/orders.api.service";
 import Modal from "../../Modal/Modal";
 import PrepareOrderForm from "./form/PrepareOrderForm";
 import priceListsApiService from "../../../api/pricelist/pricelists.api.service";
-import {Route, Switch, useRouteMatch} from "react-router-dom";
-import ProtectedRoute from "../../../ProtectedRoute";
+import {useRouteMatch} from "react-router-dom";
 import history from "../../../api/history/history";
-import UploadOrder from "./upload/UploadOrder";
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);

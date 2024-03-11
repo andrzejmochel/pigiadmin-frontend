@@ -6,7 +6,6 @@ import {Link, Switch} from 'react-router-dom';
 import PriceLists from '../tabs/pricelists/PriceLists';
 import './Main.css';
 import ProtectedRoute from "../../ProtectedRoute";
-import Orders from "../tabs/orders/Orders";
 import OrdersPaths from "../../paths/OrdersPaths";
 
 const Main = () => {

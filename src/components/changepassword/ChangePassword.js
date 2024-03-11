@@ -1,21 +1,24 @@
-// components/Login.js
 import React, {useState} from 'react';
-import './Login.css';
-import {useAuth} from '../../api/authentication/AuthContext'
+import './ChangePassword.css';
 import {useNotification} from "rc-notification";
-import {Link} from "react-router-dom";
+import authenticationApiService from "../../api/authentication/authentication.api.service";
 import history from "../../api/history/history";
 
-const Login = ({onLoginSuccess}) => {
+const ChangePassword = ({onLoginSuccess}) => {
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const {login} = useAuth();
     const [notification, notificationContext] = useNotification({})
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        login(username, password).then((success) => {
-            history.push("/");
+        authenticationApiService.requestChangePassword(username).then((success) => {
+            notification.open({
+                content: 'Change password request has been sent',
+                duration: -1,
+                closable: true,
+                onClose:() => {
+                    history.push("/login")
+                }
+            })
         }).catch(e => {
                 notification.open({
                     content: 'Login or password is incorrect',
@@ -27,23 +30,18 @@ const Login = ({onLoginSuccess}) => {
     }
 
     return (
-        <div className="login-container">
-            <h2>Login</h2>
+        <div className="changepssword-container">
+            <h2>Change Password</h2>
             {notificationContext}
             <form className="pigi-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <input type="text" placeholder="Username" value={username}
                            onChange={(e) => setUsername(e.target.value)}/>
                 </div>
-                <div className="form-group">
-                    <input type="password" placeholder="Password" value={password}
-                           onChange={(e) => setPassword(e.target.value)}/>
-                </div>
-                <button type="submit">Login</button>
+                <button type="submit">Change</button>
             </form>
-            <Link to="/changepassword/request">Change Password</Link>
         </div>
     );
 }
 
-export default Login;
+export default ChangePassword;

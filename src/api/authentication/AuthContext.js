@@ -24,9 +24,7 @@ export const AuthProvider = ({ children }) => {
         return payload.sub;
     };
 
-
     const login = (loginName, password) => {
-        console.log(`${API_URL}/signin`)
         return axios.post(`${API_URL}/signin`, { loginName, password }).then(result => {
             const token = result.data.authorization
             tokenCookie.setToken(token);
