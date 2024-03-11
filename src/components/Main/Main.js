@@ -7,6 +7,7 @@ import PriceLists from '../tabs/pricelists/PriceLists';
 import './Main.css';
 import ProtectedRoute from "../../ProtectedRoute";
 import OrdersPaths from "../../paths/OrdersPaths";
+import UsersPaths from "../../paths/UsersPaths";
 
 const Main = () => {
     return (
@@ -21,7 +22,7 @@ const Main = () => {
                 </ul>
             </nav>
             <Switch>
-                {/*<Route path="/users" component={Users} />*/}
+                <ProtectedRoute path="/users" children={<UsersPaths />} />
                 {/*<Route path="/administration" component={Administration} />*/}
                 <ProtectedRoute path="/price-lists" children={<PriceLists/>}/>
                 <ProtectedRoute path="/orders" children={<OrdersPaths/>}/>
