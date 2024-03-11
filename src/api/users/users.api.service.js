@@ -5,6 +5,13 @@ class UsersApiService {
     getUsers = () => {
         return api.httpGET(`${API_URL}/users`);
     };
+
+    signUpUser(signUp) {
+        return api.httpPOST(`${API_URL}/users/add`, {
+            name : signUp.username,
+            id : signUp.id
+        })
+    }
 }
 
 const usersApiService = new UsersApiService();

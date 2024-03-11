@@ -3,10 +3,12 @@ import Modal from "../../Modal/Modal";
 import {useNotification} from "rc-notification";
 import {useRouteMatch} from "react-router-dom";
 import usersApiService from "../../../api/users/users.api.service";
+import AddUserForm from "./form/AddUserForm";
+import history from "../../../api/history/history";
 
 const Users = () => {
     const [users, setUsers] = useState([]);
-    // const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [notice, context] = useNotification({closable: true, maxCount: 1})
     const match = useRouteMatch();
 
@@ -23,7 +25,7 @@ const Users = () => {
     }, []);
 
     function handleShowNewUsers() {
-
+        history.push(`${match}/new`)
     }
 
     const handleChangeRoles = (id) => {
@@ -38,8 +40,25 @@ const Users = () => {
 
     };
     const handleSignupUser = () => {
-
+        setIsModalOpen(true)
     };
+
+    const onUserAdd = async (singUp) => {
+        setIsModalOpen(false);
+
+        try {
+            await usersApiService.signUpUser(singUp);
+            notice.open({
+                content: 'User added. Should wait for confirmation email!'
+            });
+        } catch (e) {
+            notice.open({
+                content: 'New user added!'
+            });
+        }
+
+
+    }
 
     return (
         <div className="users-container">
@@ -73,9 +92,9 @@ const Users = () => {
                 </tbody>
             </table>
             <button onClick={() => handleSignupUser()}>Add User</button>
-            {/*<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>*/}
-            {/*    <PrepareOrderForm onSubmit={onPrepared} priceLists={priceList}/>*/}
-            {/*</Modal>*/}
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <AddUserForm onSubmit={onUserAdd} />
+            </Modal>
         </div>
     );
 }
