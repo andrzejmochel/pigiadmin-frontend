@@ -3,40 +3,53 @@ import {useNotification} from "rc-notification";
 import {useRouteMatch} from "react-router-dom";
 import usersApiService from "../../../api/users/users.api.service";
 import history from "../../../api/history/history";
+import Modal from "../../Modal/Modal";
+import AddUserForm from "./form/AddUserForm";
 
-const Users = () => {
+const NewUsers = () => {
     const [users, setUsers] = useState([]);
     const [notice, context] = useNotification({closable: true, maxCount: 1})
-    const match = useRouteMatch();
-
-    useEffect(() => {
-        fetchUsers();
-    }, []);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const fetchUsers = async () => {
         try {
-            const response = await usersApiService.getConfirmedUsers();
+            const response = await usersApiService.getNewUsers();
             setUsers(response);
         } catch (error) {
             console.error('Error fetching orders:', error);
         }
     };
 
-    function handleShowNewUsers() {
-        history.push(`${match.url}/new`)
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    function handleShowUsers() {
+        history.push('/users')
     }
 
-    const handleChangeRoles = (id) => {
-
-    };
-
-    function handleSendChangePassword(id) {
-
-    }
 
     const handleDelete = async (id) => {
         await usersApiService.delete(id);
         await fetchUsers();
+    };
+
+    const onUserAdd = async (singUp) => {
+        setIsModalOpen(false);
+        try {
+            await usersApiService.signUpUser(singUp);
+            await fetchUsers();
+            notice.open({
+                content: 'User added. Should wait for confirmation email!'
+            });
+        } catch (e) {
+            notice.open({
+                content: 'New user added!'
+            });
+        }
+    }
+    const handleSignupUser = () => {
+        setIsModalOpen(true);
     };
 
     return (
@@ -44,9 +57,9 @@ const Users = () => {
             {context}
             <div className="actions">
                 <h2>Actions</h2>
-                <button onClick={handleShowNewUsers}>New users</button>
+                <button onClick={handleShowUsers}>Confirmed users</button>
             </div>
-            <h2>Users</h2>
+            <h2>New Users</h2>
             <table className="pigi-table">
                 <thead>
                 <tr>
@@ -61,17 +74,20 @@ const Users = () => {
                         <td>{user.userName}</td>
                         <td>{user.roles}</td>
                         <td>
-                            { !user.roles.includes("SUPER_ADMIN") && <button onClick={() => handleChangeRoles(user.id)}>Change roles</button> }
-                            { !user.roles.includes("SUPER_ADMIN") && <button onClick={() => handleSendChangePassword(user.id)}>Send change password</button> }
-                            { !user.roles.includes("SUPER_ADMIN") && <button onClick={() => handleDelete(user.id)}>Delete</button> }
+                            {!user.roles.includes("SUPER_ADMIN") &&
+                                <button onClick={() => handleDelete(user.id)}>Delete</button>}
 
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
+            <button onClick={() => handleSignupUser()}>Add User</button>
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                <AddUserForm onSubmit={onUserAdd}/>
+            </Modal>
         </div>
     );
 }
 
-export default Users;
+export default NewUsers;
