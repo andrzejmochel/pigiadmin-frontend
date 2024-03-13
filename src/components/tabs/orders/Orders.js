@@ -7,14 +7,12 @@ import Modal from "../../Modal/Modal";
 import PrepareOrderForm from "./form/PrepareOrderForm";
 import priceListsApiService from "../../../api/pricelist/pricelists.api.service";
 import {useRouteMatch} from "react-router-dom";
-import history from "../../../api/history/history";
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [priceList, setPriceList] = useState([])
     const [notice, context] = useNotification({closable: true, maxCount: 1})
-    const match = useRouteMatch();
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -50,17 +48,12 @@ const Orders = () => {
         setPriceList([]);
     }
 
-    const handleUpload = () => {
-        history.push(`${match.url}/upload`);
-    };
-
     return (
         <div className="orders-container">
             {context}
             <div className="actions">
                 <h2>Actions</h2>
                 <button onClick={handlePrepare}>Prepare</button>
-                <button onClick={handleUpload}>Upload</button>
             </div>
             <h2>Orders</h2>
             <table className="pigi-table">

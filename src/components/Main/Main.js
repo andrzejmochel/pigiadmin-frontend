@@ -8,6 +8,7 @@ import './Main.css';
 import ProtectedRoute from "../../ProtectedRoute";
 import OrdersPaths from "../../paths/OrdersPaths";
 import UsersPaths from "../../paths/UsersPaths";
+import UploadOrder from "../tabs/orders/upload/UploadOrder";
 
 const Main = () => {
     return (
@@ -16,17 +17,18 @@ const Main = () => {
             <nav className="navbar">
                 <ul>
                     <li><Link to="/users">Users</Link></li>
-                    <li><Link to="/administration">Administration</Link></li>
+                    {/*<li><Link to="/administration">Administration</Link></li>*/}
                     <li><Link to="/price-lists">Price Lists</Link></li>
                     <li><Link to="/orders">Orders</Link></li>
+                    <li><Link to="/import">Import</Link></li>
                 </ul>
             </nav>
             <Switch>
-                <ProtectedRoute path="/users" children={<UsersPaths />} />
+            <ProtectedRoute path="/users" children={<UsersPaths />} />
                 {/*<Route path="/administration" component={Administration} />*/}
                 <ProtectedRoute path="/price-lists" children={<PriceLists/>}/>
                 <ProtectedRoute path="/orders" children={<OrdersPaths/>}/>
-
+                <ProtectedRoute path="/import" children={<UploadOrder/>}/>
                 {/*<Route path="/orders" component={Orders} />*/}
             </Switch>
         </div>

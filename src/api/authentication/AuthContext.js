@@ -21,7 +21,10 @@ export const AuthProvider = ({ children }) => {
 
     const getUser = (token) => {
         const payload = jwtDecode(token);
-        return payload.sub;
+        return {
+            ...payload.sub,
+            roles: payload.role
+        }
     };
 
     const login = (loginName, password) => {

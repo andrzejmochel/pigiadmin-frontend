@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {useNotification} from "rc-notification";
-import {useRouteMatch} from "react-router-dom";
 import usersApiService from "../../../api/users/users.api.service";
 import history from "../../../api/history/history";
 import Modal from "../../Modal/Modal";
