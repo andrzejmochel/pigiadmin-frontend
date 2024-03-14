@@ -13,6 +13,14 @@ class OrdersApiService {
             return {data: new Blob([data]), filename: 'cards.zip'}
         })
     }
+
+    async getOrder(orderId) {
+        return api.httpGET(`${API_URL}/orders/${orderId}`);
+    }
+
+    synchronize(orderId) {
+        return api.httpGET(`${API_URL}/orders/${orderId}/synchronize`);
+    }
 }
 
 const ordersApiService = new OrdersApiService();

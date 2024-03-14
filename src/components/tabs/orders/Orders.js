@@ -6,7 +6,7 @@ import ordersApiService from "../../../api/orders/orders.api.service";
 import Modal from "../../Modal/Modal";
 import PrepareOrderForm from "./form/PrepareOrderForm";
 import priceListsApiService from "../../../api/pricelist/pricelists.api.service";
-import {useRouteMatch} from "react-router-dom";
+import history from "../../../api/history/history";
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -30,7 +30,7 @@ const Orders = () => {
 
     };
     const handleShow = (id) => {
-
+        history.push(`/orders/${id}/details`);
     };
     const handlePrepare = async () => {
         const response = await priceListsApiService.getPriceLists();
