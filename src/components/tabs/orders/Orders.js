@@ -30,7 +30,7 @@ const Orders = () => {
 
     };
     const handleShow = (id) => {
-        history.push(`/orders/${id}/details`);
+        history.push(`/order/${id}/details`);
     };
     const handlePrepare = async () => {
         const response = await priceListsApiService.getPriceLists();

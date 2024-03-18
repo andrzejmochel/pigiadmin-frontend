@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import '../Orders.css';
-import ordersApiService from "../../../../api/orders/orders.api.service";
+import '../../Orders.css';
+import './OrderDetails.css';
+import ordersApiService from "../../../../../api/orders/orders.api.service";
 import {useParams} from "react-router-dom";
-import registrationsApiService from "../../../../api/registrations/registrations.api.service";
-import Modal from "../../../Modal/Modal";
+import Modal from "../../../../Modal/Modal";
 import EditOrderForm from "../form/EditOrderForm";
+import OrderMenu from "../../menu/OrderMenu";
+import history from "../../../../../api/history/history";
 
-const Orders = () => {
+const OrderDetails = () => {
     const [order, setOrder] = useState({});
-    const [registrations, setRegistrations] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(null);
     let {orderId} = useParams();
 
@@ -18,8 +19,6 @@ const Orders = () => {
             try {
                 const order = await ordersApiService.getOrder(orderId);
                 setOrder(order);
-                const response = await registrationsApiService.getOrderRegistrations(orderId);
-                setRegistrations(response);
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }
@@ -43,36 +42,21 @@ const Orders = () => {
     }
 
     return (
-        <div className="orders-container">
-            <h2>{order.name}</h2>
-            <div className="actions">
+        <div>
+            <OrderMenu orderId={orderId} history={history} active={"details"}>
                 <button onClick={handleSynchronize}>Synchronize</button>
                 <button onClick={handleEdit}>Edit</button>
+            </OrderMenu>
+            <div className="orders-details">
+                <p><b>Name:</b><br/>{order.name}</p>
+                <p><b>Description:</b><br/>{order.description}</p>
             </div>
-            <table className="pigi-table">
-                <thead>
-                <tr>
-                    <th>Order Name</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {registrations.map((registration) => (
-                    <tr key={registration.id}>
-                        <td>{registration.email}</td>
-                        <td>
-                            {/*<button onClick={() => handleArchive(order.id)}>Archive</button>*/}
-                            {/*<button onClick={() => handleShow(order.id)}>Show</button>*/}
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <EditOrderForm order={order} onSubmit={onEditOrder}/>
             </Modal>
         </div>
+
     );
 };
 
-export default Orders;
+export default OrderDetails;

@@ -1,6 +1,6 @@
 // PrepareOrderForm.js
 import React, {useEffect, useState} from 'react';
-import './PrepareOrderForm.css'; // Import the CSS file for styling
+import '../../form/PrepareOrderForm.css'; // Import the CSS file for styling
 
 const EditOrderForm = ({onSubmit, order}) => {
     const [name, setName] = useState('');

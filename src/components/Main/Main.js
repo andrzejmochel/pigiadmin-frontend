@@ -1,14 +1,14 @@
-// components/Main.js
+
 import React from 'react';
 import {Link, Switch} from 'react-router-dom';
-// import Users from './Users';
-// import Administration from './Administration';
+
 import PriceLists from '../tabs/pricelists/PriceLists';
 import './Main.css';
 import ProtectedRoute from "../../ProtectedRoute";
 import OrdersPaths from "../../paths/OrdersPaths";
 import UsersPaths from "../../paths/UsersPaths";
 import UploadOrder from "../tabs/orders/upload/UploadOrder";
+import Order from "../tabs/orders/order/Order";
 
 const Main = () => {
     return (
@@ -24,11 +24,12 @@ const Main = () => {
                 </ul>
             </nav>
             <Switch>
-            <ProtectedRoute path="/users" children={<UsersPaths />} />
+                <ProtectedRoute path="/users" children={<UsersPaths/>}/>
                 {/*<Route path="/administration" component={Administration} />*/}
                 <ProtectedRoute path="/price-lists" children={<PriceLists/>}/>
                 <ProtectedRoute path="/orders" children={<OrdersPaths/>}/>
                 <ProtectedRoute path="/import" children={<UploadOrder/>}/>
+                <ProtectedRoute path="/order/:orderId" children={<Order/>}/>
                 {/*<Route path="/orders" component={Orders} />*/}
             </Switch>
         </div>
