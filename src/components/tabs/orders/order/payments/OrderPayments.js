@@ -29,12 +29,12 @@ const OrderPayments = () => {
     };
 
     const onSendPayments = async (emailContent) => {
-        await ordersApiService.sendPaymentsNotifications(orderId, emailContent);
+        const result = await ordersApiService.sendPaymentsNotifications(orderId, emailContent);
         setIsSendPaymentsModalVisible(false)
     }
 
     const onSendSinglePayment = async (emailContent) => {
-        await ordersApiService.sendSinglePaymentNotification(orderId, paymentId, emailContent);
+        const result = await ordersApiService.sendSinglePaymentNotification(paymentId, emailContent);
         setIsSendSinglePaymentModalVisible(false)
         setPaymentId(null)
     }

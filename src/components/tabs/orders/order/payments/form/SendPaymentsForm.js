@@ -4,12 +4,10 @@ import {TINY_MCE_API_KEY} from "../../../../../../Env";
 
 const SendPaymentsForm = ({onSubmit}) => {
     const editorRef = useRef(null);
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
         onSubmit(editorRef.current.getContent())
     };
-
-    console.log(TINY_MCE_API_KEY)
 
     return (
         <div>
