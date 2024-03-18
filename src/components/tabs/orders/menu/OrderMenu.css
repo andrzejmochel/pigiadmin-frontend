@@ -1,0 +1,13 @@
+.order-menu-navigation button {
+    background-color: #343030;
+    color: white;
+}
+
+.order-menu-navigation button.btn-disabled {
+    background-color: #9d8b8b;
+    cursor: not-allowed;
+}
+
+.order-menu-actions {
+    padding-top: 10px;
+}

@@ -35,6 +35,22 @@ class OrdersApiService {
             return {data: new Blob([data]), filename: 'reportOrderData.docx'}
         })
     }
+
+    calculatePayment(orderId) {
+        return api.httpGET(`${API_URL}/orders/${orderId}/calculate/payments`);
+    }
+
+    getPayments(orderId) {
+        return api.httpGET(`${API_URL}/orders/${orderId}/payments`);
+    }
+
+    async sendPaymentsNotifications(orderId, emailContent) {
+        return api.httpPOST(`${API_URL}/orders/${orderId}/send/payment/notification`, { emailContent : emailContent})
+    }
+
+    sendSinglePaymentNotification(paymentId, emailContent) {
+        return api.httpPOST(`${API_URL}/orders/send/payments/${paymentId}/notification`, { emailContent : emailContent})
+    }
 }
 
 const ordersApiService = new OrdersApiService();
