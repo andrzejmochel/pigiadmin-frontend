@@ -25,6 +25,16 @@ class OrdersApiService {
     synchronize(orderId) {
         return api.httpGET(`${API_URL}/orders/${orderId}/synchronize`);
     }
+
+    getOrderPositions(orderId) {
+        return api.httpGET(`${API_URL}/orders/${orderId}/positions`);
+    }
+
+    reportSummary(orderId) {
+        return api.httpGETFile(`${API_URL}/orders/${orderId}/reports/registrations/orders`).then(data => {
+            return {data: new Blob([data]), filename: 'reportOrderData.docx'}
+        })
+    }
 }
 
 const ordersApiService = new OrdersApiService();
