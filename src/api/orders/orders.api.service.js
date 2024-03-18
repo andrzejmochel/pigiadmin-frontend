@@ -14,8 +14,12 @@ class OrdersApiService {
         })
     }
 
-    async getOrder(orderId) {
+    getOrder(orderId) {
         return api.httpGET(`${API_URL}/orders/${orderId}`);
+    }
+
+    updateOrderProperties = (orderId, properties) => {
+        return api.httpPOST(`${API_URL}/orders/${orderId}/properties`, properties);
     }
 
     synchronize(orderId) {
