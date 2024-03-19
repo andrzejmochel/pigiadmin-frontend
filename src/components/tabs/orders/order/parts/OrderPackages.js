@@ -20,10 +20,12 @@ const OrderPackages = () => {
     const fetchOrderPositions = async (orderId) => {
         const result = await ordersApiService.getOrderPositions(orderId)
         const registrations = await registrationsApiService.getOrderRegistrations(orderId);
+        console.log('raw', registrations)
         const registrationsMap = registrations.reduce((map, r) => {
             map[r.id] = r;
             return map;
-        })
+        }, {})
+        console.log('map', registrationsMap)
         const positions = result.map((p) => {
             p.registration = registrationsMap[p.registration]
             return p;

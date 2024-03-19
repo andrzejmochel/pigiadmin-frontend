@@ -6,6 +6,7 @@ import '../../Orders.css';
 import ordersApiService from "../../../../../api/orders/orders.api.service";
 import Modal from "../../../../Modal/Modal";
 import SendPaymentsForm from "./form/SendPaymentsForm";
+import toast from "react-hot-toast";
 
 
 const OrderPayments = () => {
@@ -26,15 +27,18 @@ const OrderPayments = () => {
     const handlePaymentsCalculation = async () => {
         await ordersApiService.calculatePayment(orderId);
         fetchPayments(orderId);
+        toast.success('Payments have been calculated');
     };
 
     const onSendPayments = async (emailContent) => {
-        const result = await ordersApiService.sendPaymentsNotifications(orderId, emailContent);
+        await ordersApiService.sendPaymentsNotifications(orderId, emailContent);
+        toast.success('Mails have been send');
         setIsSendPaymentsModalVisible(false)
     }
 
     const onSendSinglePayment = async (emailContent) => {
         const result = await ordersApiService.sendSinglePaymentNotification(paymentId, emailContent);
+        toast.success('Mail have been send');
         setIsSendSinglePaymentModalVisible(false)
         setPaymentId(null)
     }
