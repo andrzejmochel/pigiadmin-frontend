@@ -2,34 +2,27 @@
 import React, {useState} from 'react';
 import './Login.css';
 import {useAuth} from '../../api/authentication/AuthContext'
-import {useNotification} from "rc-notification";
+import toast from "react-hot-toast"
 import {Link} from "react-router-dom";
 import history from "../../api/history/history";
 
-const Login = ({onLoginSuccess}) => {
+const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const {login} = useAuth();
-    const [notification, notificationContext] = useNotification({})
 
     const handleSubmit = (e) => {
         e.preventDefault();
         login(username, password).then((success) => {
             history.push("/");
-        }).catch(e => {
-                notification.open({
-                    content: 'Login or password is incorrect',
-                    duration: -1,
-                    closable: true,
-                })
-            }
+        }).catch(e =>
+            toast.error('Login or password is incorrect')
         )
     }
 
     return (
         <div className="login-container">
             <h2>Login</h2>
-            {notificationContext}
             <form className="pigi-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <input type="text" placeholder="Username" value={username}

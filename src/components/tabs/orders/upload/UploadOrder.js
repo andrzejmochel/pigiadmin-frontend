@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
-import {useNotification} from "rc-notification";
 import ordersApiService from "../../../../api/orders/orders.api.service";
 import fileDownload from "js-file-download";
+import toast from "react-hot-toast";
 
 const UploadOrder = () => {
     const [selectedFile, setSelectedFile] = useState(null);
-    const [notification, notificationContext] = useNotification({closable: true})
 
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
@@ -15,9 +14,7 @@ const UploadOrder = () => {
         e.preventDefault();
 
         if (!selectedFile) {
-            notification.open({
-                content: 'Choose file'
-            })
+            toast.error('Choose file');
             return;
         }
 
@@ -28,9 +25,7 @@ const UploadOrder = () => {
             const response =  await ordersApiService.uploadOrderXls(formData);
             fileDownload(response.data, response.filename);
         } catch (error) {
-            notification.open({
-                content: 'Error uploading order'
-            })
+            toast.error('Error uploading file: ' + error);
             console.error('Error uploading file:', error);
         }
     };
@@ -38,7 +33,6 @@ const UploadOrder = () => {
     return (
         <div>
             <h2>Upload Order File</h2>
-            {notificationContext}
             <form onSubmit={handleSubmit} className="pigi-form">
                 <input type="file" onChange={handleFileChange} />
                 <button type="submit">Upload</button>

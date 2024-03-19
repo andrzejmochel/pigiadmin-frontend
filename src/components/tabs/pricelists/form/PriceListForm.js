@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import './PriceListForm.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGripVertical, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import toast from "react-hot-toast";
 
 const PriceListForm = ({onSubmitPriceList, priceList}) => {
     const [name, setName] = useState('');
@@ -26,7 +27,7 @@ const PriceListForm = ({onSubmitPriceList, priceList}) => {
         e.preventDefault();
         // Perform validation here
         if (!name || !products.length) {
-            alert('Please enter name and at least one product');
+            toast.error('Please enter name and at least one product');
             return;
         }
         // Call onAdd function to add or update price list

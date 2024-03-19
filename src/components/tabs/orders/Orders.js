@@ -1,18 +1,17 @@
 // Orders.js
 import React, {useEffect, useState} from 'react';
 import './Orders.css';
-import {useNotification} from 'rc-notification';
 import ordersApiService from "../../../api/orders/orders.api.service";
 import Modal from "../../Modal/Modal";
 import PrepareOrderForm from "./form/PrepareOrderForm";
 import priceListsApiService from "../../../api/pricelist/pricelists.api.service";
 import history from "../../../api/history/history";
+import toast from "react-hot-toast";
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [priceList, setPriceList] = useState([])
-    const [notice, context] = useNotification({closable: true, maxCount: 1})
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -20,6 +19,7 @@ const Orders = () => {
                 const response = await ordersApiService.getOrders();
                 setOrders(response);
             } catch (error) {
+                toast.error('Error fetching orders: ' + error);
                 console.error('Error fetching orders:', error);
             }
         };
@@ -39,18 +39,13 @@ const Orders = () => {
     };
 
     const onPrepared = (preparedOrder) => {
-        notice.open({
-            content: `${new Date().toISOString()}`,
-            duration: -1,
-            placement: "top"
-        });
+        //todo
         setIsModalOpen(false);
         setPriceList([]);
     }
 
     return (
         <div className="orders-container">
-            {context}
             <div className="actions">
                 <h2>Actions</h2>
                 <button onClick={handlePrepare}>Prepare</button>

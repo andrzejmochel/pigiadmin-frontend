@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useRouteMatch} from "react-router-dom";
 import usersApiService from "../../../api/users/users.api.service";
 import history from "../../../api/history/history";
+import toast from "react-hot-toast";
 
 const Users = () => {
     const [users, setUsers] = useState([]);
@@ -16,6 +17,7 @@ const Users = () => {
             const response = await usersApiService.getConfirmedUsers();
             setUsers(response);
         } catch (error) {
+            toast.error('Error fetching orders: ' + error)
             console.error('Error fetching orders:', error);
         }
     };
@@ -34,6 +36,7 @@ const Users = () => {
 
     const handleDelete = async (id) => {
         await usersApiService.delete(id);
+        toast.success('User has been deleted')
         await fetchUsers();
     };
 

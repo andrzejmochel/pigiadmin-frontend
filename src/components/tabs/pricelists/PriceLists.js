@@ -4,6 +4,7 @@ import PriceListForm from './form/PriceListForm';
 import './PriceLists.css';
 import priceListsApiService from "../../../api/pricelist/pricelists.api.service";
 import { v4 as uuidv4 } from 'uuid';
+import toast from "react-hot-toast";
 
 const PriceLists = () => {
     // Dummy data for price lists (replace with your actual data)
@@ -16,6 +17,7 @@ const PriceLists = () => {
             const response = await priceListsApiService.getPriceLists();
             setPriceLists(response); // Update the price lists state with the fetched data
         } catch (error) {
+            toast.error('Error fetching price lists: ' + error);
             console.error('Error fetching price lists:', error);
         }
     };
@@ -32,7 +34,9 @@ const PriceLists = () => {
             setSelectedPriceList(null);
             setIsModalOpen(false);
             await fetchPriceLists();
+            toast.success('Price list changed');
         } catch(e) {
+            toast.error('saving failed');
             console.log('saving failed')
         }
     };
@@ -54,6 +58,7 @@ const PriceLists = () => {
 
     const handleDeletePriceList = async (id) => {
         await priceListsApiService.deletePriceLists(id)
+        toast.success('Price list deleted');
         fetchPriceLists();
     };
 

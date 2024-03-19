@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {useNotification} from "rc-notification";
 import usersApiService from "../../../api/users/users.api.service";
 import history from "../../../api/history/history";
 import Modal from "../../Modal/Modal";
 import AddUserForm from "./form/AddUserForm";
+import toast from "react-hot-toast";
 
 const NewUsers = () => {
     const [users, setUsers] = useState([]);
-    const [notice, context] = useNotification({closable: true, maxCount: 1})
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const fetchUsers = async () => {
@@ -38,13 +37,9 @@ const NewUsers = () => {
         try {
             await usersApiService.signUpUser(singUp);
             await fetchUsers();
-            notice.open({
-                content: 'User added. Should wait for confirmation email!'
-            });
+            toast.success('User added. Should wait for confirmation email!');
         } catch (e) {
-            notice.open({
-                content: 'New user added!'
-            });
+            toast.error( 'New user added!');
         }
     }
     const handleSignupUser = () => {
@@ -53,7 +48,6 @@ const NewUsers = () => {
 
     return (
         <div className="users-container">
-            {context}
             <div className="actions">
                 <h2>Actions</h2>
                 <button onClick={handleShowUsers}>Confirmed users</button>

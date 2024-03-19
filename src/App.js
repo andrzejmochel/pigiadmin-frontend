@@ -9,11 +9,13 @@ import ProtectedRoute from './ProtectedRoute';
 import Router from "react-router-dom/es/Router";
 import history from "./api/history/history";
 import ChangePasswordPaths from "./paths/ChangePasswordPaths";
+import {Toaster} from "react-hot-toast";
 
 function App() {
 
     return (
         <AuthProvider>
+            <Toaster />
             <Router history={history}>
                 <div className="App">
                     <Switch>
