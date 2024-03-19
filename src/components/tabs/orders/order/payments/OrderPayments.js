@@ -25,20 +25,29 @@ const OrderPayments = () => {
         setPayments(result);
     };
     const handlePaymentsCalculation = async () => {
-        await ordersApiService.calculatePayment(orderId);
+        await toast.promise(ordersApiService.calculatePayment(orderId), {
+            loading: 'Calculating payments ...',
+            success: <b>Payments created</b>,
+            error: <b>Error while calculating payments</b>
+        });
         fetchPayments(orderId);
-        toast.success('Payments have been calculated');
     };
 
     const onSendPayments = async (emailContent) => {
-        await ordersApiService.sendPaymentsNotifications(orderId, emailContent);
-        toast.success('Mails have been send');
-        setIsSendPaymentsModalVisible(false)
+        await toast.promise(ordersApiService.sendPaymentsNotifications(orderId, emailContent), {
+            loading: 'Sending mails ...',
+            success: <b>Mails have been send</b>,
+            error: <b>Mails have not been send</b>
+        });
+             setIsSendPaymentsModalVisible(false)
     }
 
     const onSendSinglePayment = async (emailContent) => {
-        const result = await ordersApiService.sendSinglePaymentNotification(paymentId, emailContent);
-        toast.success('Mail have been send');
+        await toast.promise(ordersApiService.sendSinglePaymentNotification(paymentId, emailContent), {
+            loading: 'Sending mail ...',
+            success: <b>Mail has been send</b>,
+            error: <b>Mail has not been send</b>
+        });
         setIsSendSinglePaymentModalVisible(false)
         setPaymentId(null)
     }

@@ -6,6 +6,7 @@ import '../../Orders.css';
 import ordersApiService from "../../../../../api/orders/orders.api.service";
 import registrationsApiService from "../../../../../api/registrations/registrations.api.service";
 import fileDownload from "js-file-download";
+import toast from "react-hot-toast";
 
 
 const OrderPackages = () => {
@@ -13,7 +14,6 @@ const OrderPackages = () => {
     let {orderId} = useParams();
 
     useEffect(() => {
-
         fetchOrderPositions(orderId)
     }, [orderId]);
 
@@ -39,6 +39,7 @@ const OrderPackages = () => {
             fileDownload(response.data, response.filename);
         } catch (error) {
             console.error('Error report file:', error);
+            toast.error('Failed getting report')
         }
     };
 

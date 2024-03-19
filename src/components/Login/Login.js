@@ -13,11 +13,13 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        login(username, password).then((success) => {
+        toast.promise(login(username, password), {
+            loading : 'Authenticating ...',
+            success: 'Cool you are in!',
+            error: 'Login or password is not correct!'
+        }).then((success) => {
             history.push("/");
-        }).catch(e =>
-            toast.error('Login or password is incorrect')
-        )
+        })
     }
 
     return (
