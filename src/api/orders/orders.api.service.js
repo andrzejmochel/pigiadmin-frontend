@@ -61,6 +61,10 @@ class OrdersApiService {
     getPayment(orderId, registrationId) {
         return api.httpGET(`${API_URL}/orders/${orderId}/registration/${registrationId}/payment`);
     }
+
+    getPaymentsSummary(orderId) {
+        return api.httpGET(`${API_URL}/orders/${orderId}/payments/summary`);
+    }
 }
 
 const ordersApiService = new OrdersApiService();

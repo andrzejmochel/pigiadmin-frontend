@@ -11,13 +11,17 @@ import toast from "react-hot-toast";
 
 const OrderDetails = () => {
     const [order, setOrder] = useState({});
+    const [summary, setSummary] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(null);
     let {orderId} = useParams();
 
 
     useEffect(() => {
         const fetchOrder = async () => {
-                const order = await toast.promise(ordersApiService.getOrder(orderId), {
+                const results = await toast.promise(Promise.all([
+                    ordersApiService.getOrder(orderId),
+                    ordersApiService.getPaymentsSummary(orderId)
+                ]), {
                     loading : 'Loading order',
                     success : 'Order loaded',
                     error : 'order load failed'
@@ -26,7 +30,8 @@ const OrderDetails = () => {
                         duration : -1
                     }
                 });
-                setOrder(order);
+                setOrder(results[0]);
+                setSummary(results[1])
         };
         fetchOrder();
     }, [orderId]);
@@ -73,9 +78,10 @@ const OrderDetails = () => {
             <div className="orders-details">
                 <p><b>Name:</b><br/>{order.name}</p>
                 <p><b>Description:</b><br/>{order.description}</p>
-                <p><b>Finalization date:</b><br/>{formatDate(order.finalizationDate)}</p>
-                <p><b>Transport cost:</b><br/>{order.transportCost ? order.transportCost : '0,0'} PLN</p>
-                <p><b>Bag cost:</b><br/>{order.bagCost ? order.bagCost : '0,0' } PLN</p>
+                <p><b>Finalization date:</b> {formatDate(order.finalizationDate)}</p>
+                <p><b>Transport cost:</b> {order.transportCost ? order.transportCost : '0,0'} PLN</p>
+                <p><b>Bag cost:</b> {order.bagCost ? order.bagCost : '0,0'} PLN</p>
+                <p><b>Total bags number:</b> {summary.totalLargeBags ? summary.totalLargeBags : '0'}</p>
             </div>
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <EditOrderForm order={order} onSubmit={onEditOrder}/>
