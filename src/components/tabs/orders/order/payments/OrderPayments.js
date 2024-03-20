@@ -7,6 +7,7 @@ import ordersApiService from "../../../../../api/orders/orders.api.service";
 import Modal from "../../../../Modal/Modal";
 import SendPaymentsForm from "./form/SendPaymentsForm";
 import toast from "react-hot-toast";
+import fileDownload from "js-file-download";
 
 
 const OrderPayments = () => {
@@ -59,11 +60,23 @@ const OrderPayments = () => {
     const handleSendPayments = () => {
         setIsSendPaymentsModalVisible(true)
     };
+
+    const handleCards = async ()=> {
+        await toast.promise(ordersApiService.generateCards(orderId), {
+            loading: 'Generating cards ...',
+            success: <b>Cards generated!</b>,
+            error: <b>Cards generation fails!</b>
+        }).then((success) => {
+            fileDownload(success.data, success.filename);
+        });
+    }
+
     return (
         <div className="orders-container">
             <OrderMenu active={'payments'} orderId={orderId} history={history}>
                 <button onClick={handlePaymentsCalculation}>Calculate payments</button>
                 <button onClick={handleSendPayments}>Send</button>
+                <button onClick={handleCards}>Cards</button>
             </OrderMenu>
             <table className="pigi-table">
                 <thead>

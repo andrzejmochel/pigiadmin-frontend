@@ -5,11 +5,14 @@ import {useAuth} from '../../api/authentication/AuthContext'
 import toast from "react-hot-toast"
 import {Link} from "react-router-dom";
 import history from "../../api/history/history";
+import {useLocation} from "react-router-dom/cjs/react-router-dom";
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const {login} = useAuth();
+    const location = useLocation();
+    const { from } = location.state || { from: { pathname: '/' } };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,7 +21,7 @@ const Login = () => {
             success: 'Cool you are in!',
             error: 'Login or password is not correct!'
         }).then((success) => {
-            history.push("/");
+            history.push(from.pathname);
         })
     }
 

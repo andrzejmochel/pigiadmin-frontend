@@ -29,3 +29,8 @@
 .navbar ul li a:hover {
     background-color: #555;
 }
+
+
+.logout-button {
+    margin-right: auto;
+}

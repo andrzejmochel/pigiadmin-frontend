@@ -51,6 +51,16 @@ class OrdersApiService {
     sendSinglePaymentNotification(paymentId, emailContent) {
         return api.httpPOST(`${API_URL}/orders/send/payments/${paymentId}/notification`, { emailContent : emailContent})
     }
+
+    generateCards(orderId) {
+        return api.httpGETFile(`${API_URL}/orders/${orderId}/payment/cards`).then(data => {
+            return {data: new Blob([data]), filename: 'cards.zip'}
+        })
+    }
+
+    getPayment(orderId, registrationId) {
+        return api.httpGET(`${API_URL}/orders/${orderId}/registration/${registrationId}/payment`);
+    }
 }
 
 const ordersApiService = new OrdersApiService();
