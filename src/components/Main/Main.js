@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, Switch} from 'react-router-dom';
+import {NavLink, Switch} from 'react-router-dom';
 
 import PriceLists from '../tabs/pricelists/PriceLists';
 import './Main.css';
@@ -20,16 +20,16 @@ const Main = () => {
     return (
         <div>
             <div className="header">
-                <h2 style={{ margin: '0 auto' }}>Pigi Admin</h2>
+                <h2 style={{margin: '0 auto'}}>Pigi Admin</h2>
                 <button className="logout-button" onClick={handleLogout}>Logout</button>
             </div>
             <nav className="navbar">
                 <ul>
-                    <li><Link to="/users">Users</Link></li>
+                    <li><NavLink to="/users">Users</NavLink></li>
                     {/*<li><Link to="/administration">Administration</Link></li>*/}
-                    <li><Link to="/price-lists">Price Lists</Link></li>
-                    <li><Link to="/orders">Orders</Link></li>
-                    <li><Link to="/import">Import</Link></li>
+                    <li><NavLink to="/price-lists">Price Lists</NavLink></li>
+                    <li><NavLink to="/orders">Orders</NavLink></li>
+                    <li><NavLink to="/import">Import</NavLink></li>
                 </ul>
 
             </nav>

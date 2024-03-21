@@ -30,6 +30,10 @@
     background-color: #555;
 }
 
+.navbar ul li a.active {
+    background-color: #a23f3f;
+}
+
 .header {
     display: flex;
     align-items: center;

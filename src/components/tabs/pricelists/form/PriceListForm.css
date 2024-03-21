@@ -1,6 +1,7 @@
 /* PriceListForm.css */
 .price-list-form {
-    max-width: 400px;
+    max-width: 500px;
+    min-width: 500px;
     margin: 0 auto;
 }
 

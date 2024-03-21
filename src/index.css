@@ -7,6 +7,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -66,11 +74,12 @@ button:hover {
 }
 
 .pigi-form .form-group {
-  margin-bottom: 20px;
+  box-sizing: border-box;
+  padding: 5px;
 }
 
 .pigi-form .small-input{
-  width: 35px; /* Adjust the width as needed */
+  width: 60px; /* Adjust the width as needed */
 }
 
 .pigi-form select {
