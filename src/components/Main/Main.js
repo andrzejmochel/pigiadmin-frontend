@@ -19,8 +19,8 @@ const Main = () => {
     };
     return (
         <div>
-            <h2>Main Page with Tabs</h2>
-            <div>
+            <div className="header">
+                <h2 style={{ margin: '0 auto' }}>Pigi Admin</h2>
                 <button className="logout-button" onClick={handleLogout}>Logout</button>
             </div>
             <nav className="navbar">

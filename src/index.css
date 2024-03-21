@@ -12,32 +12,6 @@ code {
     monospace;
 }
 
-.rc-notification {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: #749b75; /* Green color */
-  color: #fff; /* Text color */
-  border-radius: 4px;
-  padding: 10px 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 9999;
-}
-
-.rc-notification-notice-content {
-  margin: 0;
-  margin-right: 10px;
-}
-
-.rc-notification-notice-close {
-  position: absolute;
-  top: 5px; /* Adjust top position */
-  right: 5px; /* Adjust right position */
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  color: #fff; /* Close button color */
-}
 
 button {
   margin-right: 5px;
