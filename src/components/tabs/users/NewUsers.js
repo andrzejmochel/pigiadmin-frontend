@@ -4,6 +4,7 @@ import history from "../../../api/history/history";
 import Modal from "../../Modal/Modal";
 import AddUserForm from "./form/AddUserForm";
 import toast from "react-hot-toast";
+import ConfirmationToastContent from "../../confirmation/ConfirmationToastContent";
 
 const NewUsers = () => {
     const [users, setUsers] = useState([]);
@@ -26,10 +27,16 @@ const NewUsers = () => {
         history.push('/users')
     }
 
-
-    const handleDelete = async (id) => {
-        await usersApiService.delete(id);
+    const onConfirmDelete = async (id) => {
+        await toast.promise(usersApiService.delete(id), {
+            loading: 'Deleting ...',
+            success: <b>User deleted</b>,
+            error: <b>User deletion failed</b>
+        });
         await fetchUsers();
+    }
+    const handleDelete = async (id) => {
+        toast.custom((t) => (<ConfirmationToastContent content={(<b>Do you want to delete user?</b>)} confirmed={id} t={t} onConfirm={onConfirmDelete} />))
     };
 
     const onUserAdd = async (singUp) => {

@@ -35,7 +35,7 @@ const EditOrderForm = ({onSubmit, order}) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="description">Description:</label>
-                    <textarea id="description" cols={75} rows={6} value={description}
+                    <textarea id="description" cols={60} rows={6} value={description}
                               onChange={(e) => setDescription(e.target.value)}/>
                 </div>
                 <div className="form-group">
