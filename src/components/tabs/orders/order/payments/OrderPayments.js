@@ -8,13 +8,15 @@ import Modal from "../../../../Modal/Modal";
 import SendPaymentsForm from "./form/SendPaymentsForm";
 import toast from "react-hot-toast";
 import fileDownload from "js-file-download";
+import RealCostForm from "./form/RealCostForm";
 
 
 const OrderPayments = () => {
     const [payments, setPayments] = useState([])
-    const [paymentId, setPaymentId] = useState(null)
+    const [payment, setPayment] = useState({})
     const [isSendPaymentsModalVisible, setIsSendPaymentsModalVisible] = useState(false)
     const [isSendSinglePaymentModalVisible, setIsSendSinglePaymentModalVisible] = useState(false)
+    const [isRealCostModalVisible, setIsRealCostModalVisible] = useState(false)
     let {orderId} = useParams();
 
     useEffect(() => {
@@ -22,7 +24,7 @@ const OrderPayments = () => {
     }, [orderId]);
 
     const fetchPayments = async (id) => {
-        const result = await  ordersApiService.getPayments(id)
+        const result = await ordersApiService.getPayments(id)
         setPayments(result);
     };
     const handlePaymentsCalculation = async () => {
@@ -40,28 +42,28 @@ const OrderPayments = () => {
             success: <b>Mails have been send</b>,
             error: <b>Mails have not been send</b>
         });
-             setIsSendPaymentsModalVisible(false)
+        setIsSendPaymentsModalVisible(false)
     }
 
     const onSendSinglePayment = async (emailContent) => {
-        await toast.promise(ordersApiService.sendSinglePaymentNotification(paymentId, emailContent), {
+        await toast.promise(ordersApiService.sendSinglePaymentNotification(payment.id, emailContent), {
             loading: 'Sending mail ...',
             success: <b>Mail has been send</b>,
             error: <b>Mail has not been send</b>
         });
         setIsSendSinglePaymentModalVisible(false)
-        setPaymentId(null)
+        setPayment(null)
     }
 
-    const handleSendSinglePayment = (id) => {
-        setPaymentId(id);
+    const handleSendSinglePayment = (payment) => {
+        setPayment(payment);
         setIsSendSinglePaymentModalVisible(true)
     };
     const handleSendPayments = () => {
         setIsSendPaymentsModalVisible(true)
     };
 
-    const handleCards = async ()=> {
+    const handleCards = async () => {
         await toast.promise(ordersApiService.generateCards(orderId), {
             loading: 'Generating cards ...',
             success: <b>Cards generated!</b>,
@@ -69,6 +71,27 @@ const OrderPayments = () => {
         }).then((success) => {
             fileDownload(success.data, success.filename);
         });
+    }
+
+    const handleRealCost = (payment) => {
+        setPayment(payment)
+        setIsRealCostModalVisible(true)
+    };
+
+    const onRelaCostProvided = async (realCost) => {
+        await toast.promise(ordersApiService.provideRealCost(realCost.paymentId, realCost.realCost), {
+            loading: 'Saving real cost',
+            success: 'saved',
+            error: 'can not save real cost'
+        });
+        await toast.promise(ordersApiService.sendRealCost(realCost.paymentId), {
+            loading: 'Sending real cost...',
+            success: 'Sent',
+            error: 'can not sent real cost'
+        });
+        fetchPayments(orderId)
+        setPayment(null)
+        setIsRealCostModalVisible(false)
     }
 
     return (
@@ -94,7 +117,8 @@ const OrderPayments = () => {
                         <td>{payment.fullPrice}</td>
                         <td>{payment.realCost}</td>
                         <td>
-                           <button onClick={() => handleSendSinglePayment(payment.id)}>Send</button>
+                            <button onClick={() => handleSendSinglePayment(payment)}>Send</button>
+                            <button onClick={() => handleRealCost(payment)}>Real Cost</button>
                         </td>
                     </tr>
                 ))}
@@ -104,7 +128,11 @@ const OrderPayments = () => {
                 <SendPaymentsForm onSubmit={onSendPayments}></SendPaymentsForm>
             </Modal>
 
-            <Modal isOpen={isSendSinglePaymentModalVisible}  onClose={() => setIsSendSinglePaymentModalVisible(false)}>
+            <Modal isOpen={isRealCostModalVisible} onClose={() => setIsRealCostModalVisible(false)}>
+                <RealCostForm payment={payment} onSubmit={onRelaCostProvided}></RealCostForm>
+            </Modal>
+
+            <Modal isOpen={isSendSinglePaymentModalVisible} onClose={() => setIsSendSinglePaymentModalVisible(false)}>
                 <SendPaymentsForm onSubmit={onSendSinglePayment}></SendPaymentsForm>
             </Modal>
         </div>

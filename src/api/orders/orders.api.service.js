@@ -65,6 +65,15 @@ class OrdersApiService {
     getPaymentsSummary(orderId) {
         return api.httpGET(`${API_URL}/orders/${orderId}/payments/summary`);
     }
+
+    provideRealCost(paymentId, realCost) {
+        return api.httpPOST(`${API_URL}/orders/payments/${paymentId}/real/cost`, {realCost: realCost})
+    }
+
+    sendRealCost(paymentId) {
+        // /orders/payments/one/payment/real/cost/notification
+        return api.httpPOST(`${API_URL}/orders/payments/one/payment/real/cost/notification`, {paymentIds: [paymentId], summary: ''})
+    }
 }
 
 const ordersApiService = new OrdersApiService();
