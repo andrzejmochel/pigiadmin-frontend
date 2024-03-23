@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 
 const RealCostForm = ({onSubmit, payment}) => {
 
-    const [orderPackagePayments, setOrderPackagePayments] = useState([])
+    const [orderPackagePayments, setOrderPackagePayments] = useState([]);
+    const [summary, setSummary] = useState('');
 
     useEffect(() => {
         const fetchPayment = async () => {
@@ -36,7 +37,7 @@ const RealCostForm = ({onSubmit, payment}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateRealCost()) {
-            onSubmit({realCost: calculateRealCost(), paymentId: payment.id})
+            onSubmit({realCost: calculateRealCost(), paymentId: payment.id, summary: summary})
         } else {
             toast.error('Not all packages has real cost provided');
         }
@@ -73,6 +74,11 @@ const RealCostForm = ({onSubmit, payment}) => {
                         ))}
                         </tbody>
                     </table>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="summary">Email summary:</label>
+                    <textarea id="summary" cols={50} rows={6} value={summary}
+                              onChange={(e) => setSummary(e.target.value)}/>
                 </div>
                 <div className="button-group">
                     <button type="submit">Submit</button>

@@ -70,9 +70,13 @@ class OrdersApiService {
         return api.httpPOST(`${API_URL}/orders/payments/${paymentId}/real/cost`, {realCost: realCost})
     }
 
-    sendRealCost(paymentId) {
+    sendRealCost(paymentId, summary) {
         // /orders/payments/one/payment/real/cost/notification
-        return api.httpPOST(`${API_URL}/orders/payments/one/payment/real/cost/notification`, {paymentIds: [paymentId], summary: ''})
+        return api.httpPOST(`${API_URL}/orders/payments/one/payment/real/cost/notification`, {paymentIds: [paymentId], summary: summary})
+    }
+
+    pay(paymentId, amount) {
+        return api.httpPOST(`${API_URL}/orders/payments/${paymentId}/pay`, {amount: amount, summary: ''})
     }
 }
 

@@ -84,7 +84,7 @@ const OrderPayments = () => {
             success: 'saved',
             error: 'can not save real cost'
         });
-        await toast.promise(ordersApiService.sendRealCost(realCost.paymentId), {
+        await toast.promise(ordersApiService.sendRealCost(realCost.paymentId, realCost.summary), {
             loading: 'Sending real cost...',
             success: 'Sent',
             error: 'can not sent real cost'
@@ -107,6 +107,7 @@ const OrderPayments = () => {
                     <th>Email</th>
                     <th>Price [PLN]</th>
                     <th>RealPrice [PLN]</th>
+                    <th>Fully paid</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -116,6 +117,7 @@ const OrderPayments = () => {
                         <td>{payment.registrationEmail}</td>
                         <td>{payment.fullPrice}</td>
                         <td>{payment.realCost}</td>
+                        <td>{payment.fullyPaid ? 'Yes' : 'No' }</td>
                         <td>
                             <button onClick={() => handleSendSinglePayment(payment)}>Send</button>
                             <button onClick={() => handleRealCost(payment)}>Real Cost</button>
